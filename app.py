@@ -1,15 +1,11 @@
-import unittest
-from app import app 
+from flask import Flask
 
-class TestHelloWorld(unittest.TestCase):
+app = Flask(__name__)
+app.config['TESTING'] = True 
 
-    def setUp(self):
-        self.client = app.test_client()
+@app.route("/")
+def hello_world():
+    return "<p>Hello, !</p>"
 
-    def test_hello_world(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(b'Hello, World!', response.data)
-
-if __name__ == '__main__':
-    unittest.main()
+if __name__ == "__main__":
+    app.run(debug=True)
