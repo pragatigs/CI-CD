@@ -1,10 +1,15 @@
-from flask import Flask, jsonify
+import unittest
+from app import app 
 
-app = Flask(__name__)
+class TestHelloWorld(unittest.TestCase):
 
-@app.route('/')
-def hello_world():
-    return jsonify(message='Hello, World!')
+    def setUp(self):
+        self.client = app.test_client()
+
+    def test_hello_world(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn(b'Hello, World!', response.data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    unittest.main()
